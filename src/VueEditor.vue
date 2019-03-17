@@ -172,8 +172,9 @@ export default {
     },
 
     emitImageInfo($event) {
+      const _inputId = this.inputId;
       const resetUploader = function() {
-        var uploader = document.getElementById(this.inputId);
+        var uploader = document.getElementById(_inputId);
         uploader.value = "";
       };
       let file = $event.target.files[0];
