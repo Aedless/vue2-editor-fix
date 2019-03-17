@@ -2,7 +2,7 @@
   <div class="quillWrapper">
     <slot name="toolbar"></slot>
     <div :id="id" ref="quillContainer"></div>
-    <input v-if="useCustomImageHandler" @change="emitImageInfo($event)" ref="fileInput" id="file-upload" type="file" accept="image/*" style="display:none;">
+    <input :id="inputId" v-if="useCustomImageHandler" @change="emitImageInfo($event)" ref="fileInput" type="file" accept="image/*" style="display:none;">
   </div>
 </template>
 
@@ -51,7 +51,8 @@ export default {
   },
 
   data: () => ({
-    quill: null
+    quill: null,
+    inputId: 'file-upload-' + generateUUID()
   }),
 
   mounted() {
@@ -162,7 +163,7 @@ export default {
 
     emitImageInfo($event) {
       const resetUploader = function() {
-        var uploader = document.getElementById("file-upload");
+        var uploader = document.getElementById(this.inputId);
         uploader.value = "";
       };
       let file = $event.target.files[0];
@@ -170,6 +171,16 @@ export default {
       let range = Editor.getSelection();
       let cursorLocation = range.index;
       this.$emit("imageAdded", file, Editor, cursorLocation, resetUploader);
+    },
+
+    generateUUID() {
+     let d = new Date().getTime();
+      const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+     });
+     return uuid;
     }
   },
 
