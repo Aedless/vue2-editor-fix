@@ -1,5 +1,6 @@
 let defaultToolbar = [
   [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+  [{ 'size': ['small', false, 'large', 'huge'] }],
   ["bold", "italic", "underline", "strike"], // toggled buttons
   [
     { align: "" },
